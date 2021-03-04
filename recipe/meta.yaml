@@ -25,6 +25,7 @@ requirements:
 
   run:
     - python >=3.6
+    - cryptography >=3.2
     - google-auth
     - requests-oauthlib >=0.7.0
     - click
