@@ -1,6 +1,7 @@
 {% set name = "google-auth-oauthlib" %}
-{% set version = "0.4.4" %}
-{% set sha256 = "09832c6e75032f93818edf1affe4746121d640c625a5bef9b5c96af676e98eee" %}
+{% set version = "0.5.2" %}
+{% set sha256 = "d5e98a71203330699f92a26bc08847a92e8c3b1b8d82a021f1af34164db143ae" %}
+{% set build = "0" %}
 
 package:
   name: {{ name|lower }}
@@ -12,9 +13,9 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 0
+  number: {{ build }}
+  skip: True  # [py<37]
   script: {{ PYTHON }} -m pip install . --no-deps -vv
-  noarch: python
   entry_points:
     - google-oauthlib-tool = google_auth_oauthlib.tool.__main__:main
 
@@ -26,9 +27,9 @@ requirements:
   run:
     - python >=3.6
     - cryptography >=3.2
-    - google-auth
+    - google-auth >=1.0.0
     - requests-oauthlib >=0.7.0
-    - click
+    - click >=6.0.0
 
 test:
   requires:
