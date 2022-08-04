@@ -34,7 +34,6 @@ requirements:
 
 test:
   requires:
-    - python
     - pip
   imports:
     - google_auth_oauthlib
