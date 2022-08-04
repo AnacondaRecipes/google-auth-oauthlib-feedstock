@@ -14,26 +14,27 @@ source:
 
 build:
   number: {{ build }}
-  skip: True  # [py<37]
+  skip: True  # [py<36]
   script: {{ PYTHON }} -m pip install . --no-deps -vv
   entry_points:
     - google-oauthlib-tool = google_auth_oauthlib.tool.__main__:main
 
 requirements:
-  build:
-    - python >=3.6
+  host:
+    - wheel
+    - setuptools
+    - python
     - pip
 
   run:
-    - python >=3.6
-    - cryptography >=3.2
+    - python
     - google-auth >=1.0.0
     - requests-oauthlib >=0.7.0
     - click >=6.0.0
 
 test:
   requires:
-    - python >=3.6
+    - python
     - pip
   imports:
     - google_auth_oauthlib
