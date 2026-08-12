@@ -1,11 +1,8 @@
 {% set name = "google-auth-oauthlib" %}
 {% set version = "1.4.0" %}
-{% set deselect_tests = " --deselect=tests/unit/test_flow.py::TestInstalledAppFlow::test_run_local_server_bind_addr" %}
 
-# >       my_ip = socket.gethostbyname(socket.gethostname())
-# E       socket.gaierror: [Errno 8] nodename nor servname provided, or not known
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
@@ -28,8 +25,15 @@ requirements:
   run:
     - python
     - click >=6.0.0
-    - google-auth >=2.15.0,<2.42.0
+    - google-auth >=2.15.0,<3.0.0,!=2.43.0,!=2.44.0,!=2.45.0
     - requests-oauthlib >=0.7.0
+  run_constrained:
+    # tool
+    - click >=6.0.0
+
+# >       my_ip = socket.gethostbyname(socket.gethostname())
+# E       socket.gaierror: [Errno 8] nodename nor servname provided, or not known
+{% set deselect_tests = " --deselect=tests/unit/test_flow.py::TestInstalledAppFlow::test_run_local_server_bind_addr" %}
 
 test:
   source_files:
@@ -39,7 +43,7 @@ test:
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -v {{ deselect_tests }} tests
+    - pytest -vv {{ deselect_tests }} tests
     - google-oauthlib-tool --help
   requires:
     - pip
