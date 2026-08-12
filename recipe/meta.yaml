@@ -1,17 +1,17 @@
 {% set name = "google-auth-oauthlib" %}
-{% set version = "1.2.3" %}
+{% set version = "1.4.0" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_') }}-{{ version }}.tar.gz
-  sha256: eb09e450d3cc789ecbc2b3529cb94a713673fd5f7a22c718ad91cf75aedc2ea4
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_') }}-{{ version }}.tar.gz
+  sha256: 18b5e28880eb8eba9065c436becdc0ee8e4b59117a73a510679c82f70cd363d2
 
 build:
   number: 0
-  skip: True  # [py<37]
+  skip: true  # [py<37]
   script: {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation
   entry_points:
     - google-oauthlib-tool = google_auth_oauthlib.tool.__main__:main
@@ -25,8 +25,11 @@ requirements:
   run:
     - python
     - click >=6.0.0
-    - google-auth >=2.15.0,<2.42.0
+    - google-auth >=2.15.0,<3.0.0,!=2.43.0,!=2.44.0,!=2.45.0
     - requests-oauthlib >=0.7.0
+  run_constrained:
+    # tool
+    - click >=6.0.0
 
 # >       my_ip = socket.gethostbyname(socket.gethostname())
 # E       socket.gaierror: [Errno 8] nodename nor servname provided, or not known
@@ -40,7 +43,7 @@ test:
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -v {{ deselect_tests }} tests
+    - pytest -vv {{ deselect_tests }} tests
     - google-oauthlib-tool --help
   requires:
     - pip
