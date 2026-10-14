@@ -1,13 +1,16 @@
 {% set name = "google-auth-oauthlib" %}
-{% set version = "1.4.0" %}
+{% set version = "1.5.0" %}
+{% set deselect_tests = " --deselect=tests/unit/test_flow.py::TestInstalledAppFlow::test_run_local_server_bind_addr" %}
 
+# >       my_ip = socket.gethostbyname(socket.gethostname())
+# E       socket.gaierror: [Errno 8] nodename nor servname provided, or not known
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_') }}-{{ version }}.tar.gz
-  sha256: 18b5e28880eb8eba9065c436becdc0ee8e4b59117a73a510679c82f70cd363d2
+  sha256: b351107c7dd9017f426cbb0272ea1bc04f469020fd18f4443c7d40362e0b1510
 
 build:
   number: 0
@@ -30,10 +33,6 @@ requirements:
   run_constrained:
     # tool
     - click >=6.0.0
-
-# >       my_ip = socket.gethostbyname(socket.gethostname())
-# E       socket.gaierror: [Errno 8] nodename nor servname provided, or not known
-{% set deselect_tests = " --deselect=tests/unit/test_flow.py::TestInstalledAppFlow::test_run_local_server_bind_addr" %}
 
 test:
   source_files:
