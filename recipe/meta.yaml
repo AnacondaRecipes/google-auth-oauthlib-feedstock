@@ -1,9 +1,6 @@
 {% set name = "google-auth-oauthlib" %}
 {% set version = "1.5.0" %}
-{% set deselect_tests = " --deselect=tests/unit/test_flow.py::TestInstalledAppFlow::test_run_local_server_bind_addr" %}
 
-# >       my_ip = socket.gethostbyname(socket.gethostname())
-# E       socket.gaierror: [Errno 8] nodename nor servname provided, or not known
 package:
   name: {{ name }}
   version: {{ version }}
@@ -14,7 +11,7 @@ source:
 
 build:
   number: 0
-  skip: true  # [py<37]
+  skip: true  # [py<310]
   script: {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation
   entry_points:
     - google-oauthlib-tool = google_auth_oauthlib.tool.__main__:main
@@ -34,6 +31,10 @@ requirements:
     # tool
     - click >=6.0.0
 
+# >       my_ip = socket.gethostbyname(socket.gethostname())
+# E       socket.gaierror: [Errno 8] nodename nor servname provided, or not known
+{% set deselect_tests = " --deselect=tests/unit/test_flow.py::TestInstalledAppFlow::test_run_local_server_bind_addr" %}
+
 test:
   source_files:
     - tests
@@ -50,14 +51,14 @@ test:
     - mock
 
 about:
-  home: https://github.com/googleapis/google-auth-library-python-oauthlib
+  home: https://github.com/googleapis/google-cloud-python/tree/main/packages/google-auth-oauthlib
   license: Apache-2.0
   license_family: Apache
   license_file: LICENSE
   summary: Google Authentication Library, oauthlib integration with google-auth
   description: This library provides oauthlib integration with google-auth.
   doc_url: https://google-auth-oauthlib.readthedocs.io
-  dev_url: https://github.com/googleapis/google-auth-library-python-oauthlib
+  dev_url: https://github.com/googleapis/google-cloud-python/tree/main/packages/google-auth-oauthlib
 
 extra:
   recipe-maintainers:
